@@ -799,6 +799,7 @@ export interface ApiCampaignCampaign extends Schema.CollectionType {
     singularName: 'campaign';
     pluralName: 'campaigns';
     displayName: 'Campaign';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -812,6 +813,9 @@ export interface ApiCampaignCampaign extends Schema.CollectionType {
     budget: Attribute.Integer;
     uuid: Attribute.UID &
       Attribute.CustomField<'plugin::strapi-advanced-uuid.uuid'>;
+    type: Attribute.String;
+    location: Attribute.String;
+    volunteer: Attribute.Integer;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
