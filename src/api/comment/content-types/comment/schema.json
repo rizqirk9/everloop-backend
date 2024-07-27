@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comments",
+  "info": {
+    "singularName": "comment",
+    "pluralName": "comments",
+    "displayName": "Comment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "content": {
+      "type": "text"
+    },
+    "author": {
+      "type": "string"
+    },
+    "post_id": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::post-thread.post-thread",
+      "inversedBy": "comment_id"
+    }
+  }
+}
