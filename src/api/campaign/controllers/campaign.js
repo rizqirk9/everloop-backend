@@ -13,7 +13,7 @@ module.exports = createCoreController(
       const { uuid } = ctx.params;
 
       const entity = await strapi.db.query("api::campaign.campaign").findOne({
-        where: { uuid },
+        where: { uuid: id },
       });
 
       if (!entity) {
