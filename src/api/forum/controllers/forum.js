@@ -8,10 +8,10 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::forum.forum", ({ strapi }) => ({
   async findOne(ctx) {
-    const { slug } = ctx.params;
+    const { uuid } = ctx.params;
 
     const entity = await strapi.db.query("api::forum.forum").findOne({
-      where: { slug },
+      where: { uuid },
     });
 
     if (!entity) {
