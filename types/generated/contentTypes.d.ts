@@ -771,6 +771,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    comments: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::comment.comment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -781,6 +786,43 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCampaignCampaign extends Schema.CollectionType {
+  collectionName: 'campaigns';
+  info: {
+    singularName: 'campaign';
+    pluralName: 'campaigns';
+    displayName: 'Campaign';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    description: Attribute.Text;
+    date: Attribute.DateTime;
+    banner: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    media: Attribute.Media<'images' | 'files' | 'videos' | 'audios', true>;
+    budget: Attribute.Integer;
+    uuid: Attribute.UID &
+      Attribute.CustomField<'plugin::strapi-advanced-uuid.uuid'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::campaign.campaign',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::campaign.campaign',
       'oneToOne',
       'admin::user'
     > &
@@ -799,12 +841,16 @@ export interface ApiCommentComment extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    content: Attribute.Text;
-    author: Attribute.String;
-    post_id: Attribute.Relation<
+    comment: Attribute.String & Attribute.Required;
+    forum: Attribute.Relation<
       'api::comment.comment',
       'manyToOne',
-      'api::post-thread.post-thread'
+      'api::forum.forum'
+    >;
+    users_permissions_user: Attribute.Relation<
+      'api::comment.comment',
+      'manyToOne',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -862,6 +908,45 @@ export interface ApiEventEvent extends Schema.CollectionType {
   };
 }
 
+export interface ApiForumForum extends Schema.CollectionType {
+  collectionName: 'forums';
+  info: {
+    singularName: 'forum';
+    pluralName: 'forums';
+    displayName: 'Forum';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    content: Attribute.RichText & Attribute.Required;
+    uuid: Attribute.UID &
+      Attribute.CustomField<'plugin::strapi-advanced-uuid.uuid'>;
+    comments: Attribute.Relation<
+      'api::forum.forum',
+      'oneToMany',
+      'api::comment.comment'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::forum.forum',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::forum.forum',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiPostThreadPostThread extends Schema.CollectionType {
   collectionName: 'post_threads';
   info: {
@@ -877,11 +962,6 @@ export interface ApiPostThreadPostThread extends Schema.CollectionType {
     title: Attribute.String;
     content: Attribute.Blocks;
     author: Attribute.String;
-    comment_id: Attribute.Relation<
-      'api::post-thread.post-thread',
-      'oneToMany',
-      'api::comment.comment'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -918,8 +998,10 @@ declare module '@strapi/types' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
+      'api::campaign.campaign': ApiCampaignCampaign;
       'api::comment.comment': ApiCommentComment;
       'api::event.event': ApiEventEvent;
+      'api::forum.forum': ApiForumForum;
       'api::post-thread.post-thread': ApiPostThreadPostThread;
     }
   }

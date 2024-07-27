@@ -20,12 +20,6 @@
     },
     "author": {
       "type": "string"
-    },
-    "comment_id": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::comment.comment",
-      "mappedBy": "post_id"
     }
   }
 }
