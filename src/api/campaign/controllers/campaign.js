@@ -14,6 +14,7 @@ module.exports = createCoreController(
 
       const entity = await strapi.db.query("api::campaign.campaign").findOne({
         where: { uuid: id },
+        populate: ['banner']
       });
 
       if (!entity) {
