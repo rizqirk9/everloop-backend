@@ -14,7 +14,7 @@ module.exports = createCoreController(
 
       const entity = await strapi.db.query("api::campaign.campaign").findOne({
         where: { uuid: id },
-        populate: ['banner']
+        populate: ["banner"],
       });
 
       if (!entity) {
@@ -24,6 +24,16 @@ module.exports = createCoreController(
       const sanitizedEntity = await this.sanitizeOutput(entity, ctx);
 
       return this.transformResponse(sanitizedEntity);
+    },
+    async find(ctx) {
+      // Query with populate
+      const entities = await strapi.db.query("api::forum.forum").findMany({
+        populate: ["banner"],
+      });
+
+      const sanitizedEntities = await this.sanitizeOutput(entities, ctx);
+
+      return this.transformResponse(sanitizedEntities);
     },
   })
 );
