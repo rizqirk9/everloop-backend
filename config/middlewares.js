@@ -6,7 +6,7 @@ module.exports = [
     name: "strapi::cors",
     config: {
       enabled: true,
-      origin: ["http://localhost:3000"],
+      origin: ["http://localhost:3000", "https://everloop.nashirjamali.com"],
       headers: ["Content-Type", "Authorization", "Access-Control-Allow-Origin"],
     },
   },
