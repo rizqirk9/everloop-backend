@@ -26,10 +26,15 @@ module.exports = createCoreController(
       return this.transformResponse(sanitizedEntity);
     },
     async find(ctx) {
-      // Query with populate
-      const entities = await strapi.db.query("api::campaign.campaign").findMany({
-        populate: ["banner"],
-      });
+      const { filters } = ctx.query;
+
+      // Construct the query with filters and populate
+      const entities = await strapi.db
+        .query("api::campaign.campaign")
+        .findMany({
+          where: filters,
+          populate: ["banner"],
+        });
 
       const sanitizedEntities = await this.sanitizeOutput(entities, ctx);
 
