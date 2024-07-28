@@ -27,7 +27,7 @@ module.exports = createCoreController(
     },
     async find(ctx) {
       // Query with populate
-      const entities = await strapi.db.query("api::forum.forum").findMany({
+      const entities = await strapi.db.query("api::campaign.campaign").findMany({
         populate: ["banner"],
       });
 
